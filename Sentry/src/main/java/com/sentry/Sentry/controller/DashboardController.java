@@ -28,14 +28,16 @@ public class DashboardController {
 
 private UserService userService;
 private SensorService sensorService;
+private static SensorDataService sensorDataService;
 
 private DeviceService deviceService;
 
-public DashboardController(UserService userService,SensorService sensorService, DeviceService deviceservice) {
+public DashboardController(UserService userService,SensorService sensorService, DeviceService deviceservice, SensorDataService sensorDataService) {
   
        this.userService = userService;
        this.sensorService = sensorService;
        this.deviceService = deviceservice;
+       this.sensorDataService = sensorDataService;
 }
 
 
@@ -60,6 +62,18 @@ public DashboardController(UserService userService,SensorService sensorService, 
 		 theModel.addAttribute("deviceactive", countdeviceactive);
 		 theModel.addAttribute("deviceinactive", countdeviceinactive);
 		 theModel.addAttribute("deviceerror", countdeviceerror);
+		    
+		 List<SensorData> sensorData = sensorDataService.sensorValueType(5);
+
+		 theModel.addAttribute("sensor", sensorData);
+		 for (int i = 0; i < sensorData.size(); i++) {
+	        
+	        System.out.println(sensorData.get(i));
+	        theModel.addAttribute("sensorData", sensorData.get(i));
+	       }
+		 theModel.addAttribute("sensor", sensorData);
+
+		    
 
 	        return "dashboard";
 	    }
